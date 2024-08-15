@@ -89,4 +89,4 @@ deck.shuffles()
 hand=Hand()
 hand.add_card(deck.deal(2))
 print(hand.cards[0])
-print(hand.cards[1])
+print(hand.cards[1]) # changes from home pc
