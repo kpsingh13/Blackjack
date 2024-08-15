@@ -1,5 +1,16 @@
-
 import random
+
+
+
+class Card:
+    def __init__(self, suit, rank):
+       self.suit=suit
+       self.rank=rank 
+
+    def __str__(self):
+       
+       return f"{self.rank['rank']} of {self.suit}"
+       
 
 class deck:
     def __init__(self):
@@ -23,10 +34,11 @@ class deck:
             {"rank":"Q", "value":10}
         ]
 
-        for card in suits:
+       
+        for suit in suits:  # Changed variable name from 'card' to 'suit'
             for rnk in ranks:
-                self.cards.append([card,rnk])
-
+                self.cards.append(Card(suit, rnk))  # Correctly create a Card instance
+                
     def shuffles(self):
         if len(self.cards)>1:
             random.shuffle(self.cards)
@@ -40,28 +52,41 @@ class deck:
         else:
             return crrd,"No more card available to be drawn"   
             
-
-    # shuffles()
-    # card_delt=deal(2)
-    # card=card_delt[0]
-    # rank=card[1]
-
-    # if rank=="A":
-    #     value=11
-    # elif rank=="J" or rank=="K" or rank=="Q":
-    #     value=10
-    # else:
-    #     value=rank
-
-    # rank_dict={"rank":rank, "value":value}
-
-    # print(rank_dict["rank"], rank_dict["value"])
-
+class Hand:
+    def __init__(self, dealer=False):
+        self.cards=[]
+        self.value=0
+        self.dealer=dealer
     
-deck1=deck()
-deck2=deck()
+    def add_card(self, card_list):
+        self.cards.extend(card_list) 
 
-print(deck1.cards)
+    def calculate_value(self):
+        self.value=0
+        has_ace=False 
+        for Card in self.cards:
+            card_value=int(Card.rank["value"])
+            self.value+=card_value
+            if(Card.rank["rank"]=="A"):
+                has_ace=True
 
-deck2.shuffles()
-print(deck2.cards)  #file commit
+        if has_ace and self.value>21:
+            self.value-=10
+
+    def get_value(self):
+        self.calculate_value  #instance specific data calling
+        return self.value
+
+    def is_blackjack():
+        return self.get_value() ==21
+    
+    def  display():
+        print("Your hand")
+        
+
+deck=deck()
+deck.shuffles()
+hand=Hand()
+hand.add_card(deck.deal(2))
+print(hand.cards[0])
+print(hand.cards[1])
